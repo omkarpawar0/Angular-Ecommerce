@@ -1,0 +1,69 @@
+/* // FOOTER */
+footer {
+    font-family: 'Segoe UI', sans-serif;
+    padding-top: 50px;
+    background: #212121;
+}
+
+
+.footer .foot-logo {
+    width: 130px;
+    margin-bottom: 30px;
+}
+
+
+.footer a {
+    text-decoration: none;
+    color: rgb(245, 245, 245);
+}
+
+
+.footer li {
+    margin-top: 8px;
+}
+
+.footer .social-icons a {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+footer .contact-info img {
+    flex: 0;
+    width: 20px;
+}
+
+.logo {
+    width: 100%;
+    max-width: 150px;
+}
+
+.social-icon {
+    width: 30px;
+}
+
+.btn-lime {
+    background-color: #d5ff5d;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 10px 25px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-lime:hover {
+    background-color: #c8f048;
+    text-decoration: none;
+    color: rgb(254, 254, 254);
+}
+
+.bg-lime {
+    background-color: #d5ff5d !important;
+}
+
+.Copyright h6 {
+    font-size: 14px;
+}

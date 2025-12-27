@@ -1,0 +1,39 @@
+.keen-slider {
+    max-width: 100%;
+    height: 300px;
+}
+
+.keen-slider__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.number-slide1 {
+    background-image: url('../../../assets/images/user-dashboard/home/slider-1.png');
+    background-size: cover;
+    background-position: top center;
+}
+
+.number-slide2 {
+    background-image: url('../../../assets/images/user-dashboard/home/slider-2.png');
+    background-size: cover;
+    background-position: top center;
+}
+
+.number-slide3 {
+    background-image: url('../../../assets/images/user-dashboard/home/slider-3.png');
+    background-size: cover;
+    background-position: top center;
+}
+
+// top-product
+
+.top-product .top-product-card img{
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
