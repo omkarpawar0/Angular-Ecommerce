@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <!-- FILTER ROW -->
+    <div class="row mb-3 mt-3">
+
+        <div class="col-md-3">
+            <select class="form-select" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+                <option value="">All Categories</option>
+                <option *ngFor="let cat of categories" [value]="cat">
+                    {{ cat }}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="Min Price" [(ngModel)]="minPrice"
+                (input)="applyFilters()" />
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="Max Price" [(ngModel)]="maxPrice"
+                (input)="applyFilters()" />
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" (click)="clearFilters()">
+                Clear
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-3" *ngFor="let product of filteredProducts">
+            <div class="card">
+                <div class="img-container  m-1 overflow-hidden bg-light rounded-3">
+                    <img [src]="product.imageUrl" alt="" class="w-100">
+                </div>
+
+                <div class="card-content p-3">
+                    <h6 class="mb-1">{{product.name}}</h6>
+                    <p class="mb-0 fs-5">₹{{product.price}}</p>
+                    <p class="mb-0 fs-12"><span class="original-price">₹{{product.price}}</span> <span
+                            class="text-success fs-14"> {{product.discount}}% off</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+ /*  */
+ .p-dropdown {
+     width: 170px;
+ }
+
+ .p-dropdown .p-dropdown-label {
+     padding: 5px 10px;
+     font-size: 13px;
+     font-weight: 400;
+ }
+
+ .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
+     padding: 5px 10px;
+     font-size: 14px;
+
+ }
+
+ .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+     padding: 5px 10px;
+     font-size: 14px;
+ }
+
+
+ .p-dropdown-panel .p-dropdown-header {
+     padding: 6px 10px;
+ }
+
+ .p-inputtext:enabled:focus {
+     box-shadow: none;
+ }
+
+ .p-dropdown-panel .p-dropdown-items .p-dropdown-empty-message {
+     font-size: 14px;
+ }
+
+ .p-dropdown .p-dropdown-trigger {
+     width: 2rem;
+ }
+
+ .p-dropdown .p-dropdown-clear-icon {
+     right: 2rem;
+     color: red;
+     width: 14px;
+ }
+
+
+ /* // ----------------------TABLE------------------------ */
+ .p-datatable .p-datatable-thead>tr>th {
+     padding: 10px 1rem;
+     border: none;
+     font-size: 12px !important;
+     background-color: #d7e0ff !important;
+ }
+
+ .p-datatable .p-datatable-tbody>tr>td {
+     /* // box-shadow: 0px 0px 5px gray;  */
+     padding: 10px 1rem;
+     text-align: left;
+     border-bottom: 1px solid #f4f4f49c;
+
+ }
+
+ /* // TAB */
+ .p-tabview .p-tabview-nav li {
+     height: fit-content;
+ }
+
+ .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+     box-shadow: none;
+ }
+
+ .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+     color: #000000;
+     font-size: 14px;
+     font-weight: 500;
+     border-bottom: 1px solid red;
+     padding: 10px;
+ }
+
+ .p-tabview-panels {
+     padding: 10px 4px !important;
+ }
+
+ .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+     color: #000000;
+     font-size: 14px;
+     font-weight: 500;
+     padding: 11px 10px;
+
+ }
+
+ .p-tabview .p-tabview-nav {
+     border: none;
+ }
+
+
+
+
+ table thead tr th {
+     background-color: var(--light-color) !important;
+     color: rgb(53, 15, 15) !important;
+     font-size: 12px !important;
+     font-weight: 500 !important;
+     ;
+ }
+
+ table tbody tr td {
+     font-size: 13px !important;
+ }

@@ -1,1 +1,204 @@
-<p>seller-product works!</p>
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div class="page-head">
+            <h4>Products</h4>
+        </div>
+
+        <div class="d-flex gap-4">
+
+
+            <p-dropdown [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name" [filter]="true"
+                filterBy="name" [showClear]="true" placeholder="Search">
+                <ng-template pTemplate="selectedItem" let-selectedOption>
+                    <div class="flex align-items-center gap-2">
+
+                        <div>{{ selectedOption.name }}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div>
+
+                        <div>{{ country.name }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+
+            <button class="btn btn-primary fs-12" type="button" (click)="openModal()">Add Product
+            </button>
+
+
+
+
+        </div>
+    </div>
+
+
+    <!-- TABLE -->
+    <div class="card mt-4 p-0 rounded-3 overflow-hidden">
+
+        <p-table [value]="products" class="custom-table" [paginator]="true" [rows]="10"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+
+                    <th>Sr. No</th>
+                    <th>name</th>
+                    <th>price</th>
+                    <th>Color</th>
+                    <th>Categary</th>
+                    <th>Stock</th>
+                    <!-- <th>imageUrl</th> -->
+                    <!-- <th>Tax</th> -->
+                    <th>Discount</th>
+                    <th>brand</th>
+                    <th>isActive</th>
+                    <th>Action</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-products let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{ rowIndex + 1 }}</td>
+
+                    <td>{{products.name}}</td>
+                    <td>{{products.price}}</td>
+                    <td class="text-dark fw-medium">{{products.color}}</td>
+                    <td>{{products.category}}</td>
+                    <td>{{products.stock}}</td>
+                    <!-- <td>{{products.name}}</td> -->
+                    <td>{{products.discount}}</td>
+                    <td>{{products.brand}}</td>
+                    <td>{{products.isActive}}</td>
+
+                    <td>
+                        <div class="d-flex gap-3 align-items-center">
+                            <!-- <img src="../../../assets/dashboard-container/common/edit-icon.svg" class="action-icon"
+                                alt="edit-icon"> -->
+                            <i class="fa-regular fa-pen-to-square" (click)="openModal(products)"></i>
+                            <i class="fa-solid fa-trash text-danger" (click)="deleteProd(products.id)"></i>
+                        </div>
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+</div>
+
+<button class="btn btn-primary fs-12 d-none" #openRegisterButton type="button" data-bs-toggle="modal"
+    data-bs-target="#productModal">
+</button>
+
+<div class="modal fade" id="productModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>{{ editMode ? 'Edit Product' : 'Add Product' }}</h5>
+                <button class="btn-close" #closeBtn data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+
+                    <!-- <input class="form-control mb-2" placeholder="Name" formControlName="name"> -->
+                    <div>
+                        <input class="form-control mb-1" placeholder="Name" formControlName="name"
+                            [class.is-invalid]="f['name'].touched && f['name'].invalid">
+
+                        <div class="invalid-feedback">
+                            <div *ngIf="f['name'].errors?.['required']">Name is required</div>
+                            <div *ngIf="f['name'].errors?.['minlength']">Minimum 3 characters</div>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+                        <textarea class="form-control mb-1" placeholder="Description" formControlName="description"
+                            [class.is-invalid]="f['description'].touched && f['description'].invalid"></textarea>
+
+                        <div class="invalid-feedback">
+                            <div *ngIf="f['description'].errors?.['required']">Description is required</div>
+                            <div *ngIf="f['description'].errors?.['minlength']">
+                                Minimum 10 characters
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="number" class="form-control mb-1" placeholder="Price" formControlName="price"
+                                [class.is-invalid]="f['price'].touched && f['price'].invalid">
+
+                            <div class="invalid-feedback">
+                                <div *ngIf="f['price'].errors?.['required']">Price is required</div>
+                                <div *ngIf="f['price'].errors?.['min']">Price must be greater than 0</div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control mb-1" placeholder="Stock" formControlName="stock"
+                                [class.is-invalid]="f['stock'].touched && f['stock'].invalid">
+
+                            <div class="invalid-feedback">
+                                <div *ngIf="f['stock'].errors?.['required']">Stock is required</div>
+                                <div *ngIf="f['stock'].errors?.['min']">Stock cannot be negative</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <select class="form-control mb-2" formControlName="category"
+                        [class.is-invalid]="f['category'].touched && f['category'].invalid">
+
+                        <option value="" disabled>Select Category</option>
+
+                        <option *ngFor="let cat of categories" [value]="cat">
+                            {{ cat }}
+                        </option>
+                    </select>
+
+
+
+                    <input class="form-control mb-2" placeholder="Brand" formControlName="brand">
+                    <div>
+                        <input class="form-control mb-1" placeholder="Image URL" formControlName="imageUrl"
+                            [class.is-invalid]="f['imageUrl'].touched && f['imageUrl'].invalid">
+
+                        <div class="invalid-feedback">
+                            Image URL is required
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="number" class="form-control mb-1" placeholder="Discount"
+                                formControlName="discount"
+                                [class.is-invalid]="f['discount'].touched && f['discount'].invalid">
+
+                            <div class="invalid-feedback">
+                                Discount must be between 0–90%
+                            </div>
+
+                        </div>
+                        <div class="col d-flex align-items-center">
+                            <input type="checkbox" class="me-2" formControlName="isActive">
+                            Active
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success w-100 mt-3">
+                        {{ editMode ? 'Update Product' : 'Add Product' }}
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

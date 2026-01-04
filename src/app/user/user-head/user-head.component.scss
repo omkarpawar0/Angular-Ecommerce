@@ -29,17 +29,24 @@ h1 a {
     margin-top: 5px;
     background-color: #F0F5FF;
     border-radius: 10px;
-    overflow: hidden;
+}
+
+.nav-search .list-group {
+    width: 100%;
+    top: 41px;
+    left: 0;
+    z-index: 9999;
 }
 
 .nav .nav-search input {
-    flex: 1; 
+    flex: 1;
     height: 39px;
-    border : none;
+    border: none;
     background-color: transparent;
     padding: 0px 12px;
 }
-.nav .nav-search input:focus-visible{
+
+.nav .nav-search input:focus-visible {
     border: none;
     outline: none;
 }

@@ -1,0 +1,14 @@
+.card {
+    img {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+
+    }
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: gray;
+    // margin-right: 8px;
+}

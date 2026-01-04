@@ -1,13 +1,21 @@
 <nav class="nav">
-    <div class="container">
+    <div class="container-fluid">
         <div class="content">
             <h1><a routerLink="">E-Comm</a> </h1>
-            
+
             <div>
                 <ul>
-                    <li><a><i class="fa-regular fa-user"></i> Login </a></li>
-                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
-                    <li><a routerLink="/">User Dashboard</a></li> 
+                    <li *ngIf="islogin"><a routerLink="/seller/products">Products</a></li>
+
+                    <li *ngIf="!islogin"> <button #openRegisterButton type="button" class="border-0 bg-transparent"
+                            data-bs-toggle="modal" data-bs-target="#sellerLoginModal">
+                            <i class="fa-regular fa-user"></i> Login
+                        </button></li>
+                    <li><a href="#"><i class="fa-solid fa-cart-shopping" data-bs-toggle="modal"
+                                data-bs-target="#sellerLoginModal"></i> Cart</a></li>
+                    <li><a routerLink="/">User</a></li>
+                    <li *ngIf="islogin" (click)="logout()"><a>Logout</a></li>
+
                 </ul>
             </div>
         </div>

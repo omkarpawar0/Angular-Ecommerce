@@ -1,0 +1,74 @@
+<!-- Button trigger modal -->
+<button #openRegisterButton type="button" class="btn btn-primary  d-none" data-bs-toggle="modal"
+    data-bs-target="#sellerLoginModal">
+    Launch demo
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="sellerLoginModal" tabindex="-1" aria-labelledby="sellerLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sellerLoginModalLabel">Login</h5>
+                <button #closeBtn type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+
+                    <!-- EMAIL -->
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" formControlName="email"
+                            [class.is-invalid]="email?.invalid && (email?.touched || email?.dirty)">
+
+                        <div class="invalid-feedback" *ngIf="email?.errors && (email?.touched || email?.dirty)">
+
+                            <div *ngIf="email?.errors?.['required']">
+                                Email is required
+                            </div>
+
+                            <div *ngIf="email?.errors?.['email']">
+                                Enter a valid email address
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="mb-3">
+                        <label>Password</label>
+                        <input type="password" class="form-control" formControlName="password"
+                            [class.is-invalid]="password?.invalid && (password?.touched || password?.dirty)">
+
+                        <div class="invalid-feedback"
+                            *ngIf="password?.errors && (password?.touched || password?.dirty)">
+                            <div *ngIf="password?.errors?.['required']">
+                                Password is required
+                            </div>
+                            <div *ngIf="password?.errors?.['minlength']">
+                                Password must be at least 6 characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BUTTON -->
+                    <button class="btn btn-primary w-100 mt-4" [disabled]="form.invalid ">
+                        Login
+                    </button>
+
+                    <!-- REGISTER LINK -->
+                    <div class="text-center mt-2">
+                        Don’t have an account?
+                        <button type="button" class="bg-transparent p-0 border-0 text-primary" data-bs-toggle="modal"
+                            data-bs-target="#registerModal">
+                            Register
+                        </button>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>

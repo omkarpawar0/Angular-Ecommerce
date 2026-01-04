@@ -1,0 +1,48 @@
+<!-- Button trigger modal -->
+<button #openRegisterButton type="button" class="btn btn-primary d-none" data-bs-toggle="modal"
+    data-bs-target="#registerModal">
+    hidden
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" formControlName="email" />
+                        <small class="text-danger" *ngIf="email?.invalid && email?.touched">
+                            Valid email required
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" formControlName="password" />
+                        <small class="text-danger" *ngIf="password?.invalid && password?.touched">
+                            Min 6 characters required
+                        </small>
+                    </div> 
+
+                    <button class="btn btn-primary w-100" type="submit" [disabled]="registerForm.invalid ">
+                        Sign Up
+                    </button>
+
+                    <div class="text-center mt-2">
+                        <a class="text-end">Already have an account? <button
+                                class="bg-transparent p-0 border-0 text-primary" data-bs-toggle="modal"
+                                data-bs-target="#sellerLoginModal">Login</button></a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
