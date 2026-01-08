@@ -64,7 +64,12 @@ export class AuthService {
         returnSecureToken: true
       }
     ).pipe(
-      tap(res => this.handleAuth(res))
+      tap(res => {
+        this.handleAuth(res);
+        this.router.navigateByUrl('/seller/products');
+
+      })
+
     );
   }
 
@@ -115,7 +120,8 @@ export class AuthService {
   // 🔹 AUTO LOGOUT
   autoLogout(duration: number) {
     this.logoutTimer = setTimeout(() => {
-    this.logout();
+      this.logout();
+
       alert('Session expired. Logged out automatically');
       this.isSellerLogedInSource.next(true);
       this.router.navigateByUrl('/seller');
