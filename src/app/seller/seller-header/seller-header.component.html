@@ -12,9 +12,7 @@
                     <li *ngIf="!islogin"> <button #openRegisterButton type="button" class="border-0 bg-transparent"
                             data-bs-toggle="modal" data-bs-target="#sellerLoginModal">
                             <i class="fa-regular fa-user"></i> Login
-                        </button></li>
-                    <li><a href="#"><i class="fa-solid fa-cart-shopping" data-bs-toggle="modal"
-                                data-bs-target="#sellerLoginModal"></i> Cart</a></li>
+                        </button></li> 
                     <li *ngIf="islogin" (click)="logout()"><a>Logout</a></li>
                     <li><a routerLink="/" class="user-dash">User Dashbord</a></li>
 
