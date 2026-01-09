@@ -41,9 +41,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(term => {
         this.currentSearchTerm = term || '';
- 
-        this.minPrice = 0;
-        this.maxPrice = 0;
+
+        let minPrice: number | null = null;
+        let maxPrice: number | null = null;
 
         if (this.productsLoaded) {
           this.applyFilters();
@@ -90,8 +90,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   clearFilters(): void {
     this.currentSearchTerm = '';
     this.selectedCategory = '';
-    this.minPrice = 0;
-    this.maxPrice = 0;
+    let minPrice: number | null = null;
+    let maxPrice: number | null = null; 
 
     this.applyFilters();
   }
