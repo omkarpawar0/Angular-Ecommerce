@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { sellerProduct } from 'src/app/core/models/seller';
-import { ProductService } from 'src/app/core/services/product.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -8,77 +9,95 @@ import { UserService } from 'src/app/core/services/user.service';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit, OnDestroy {
 
   products: sellerProduct[] = [];
   filteredProducts: sellerProduct[] = [];
-  searchTerm = '';
+
+  currentSearchTerm = '';
 
   // filters
-  searchText = '';
   selectedCategory = '';
-  minPrice = 0;
-  maxPrice = 0;
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
 
   categories: string[] = [];
 
+  private destroy$ = new Subject<void>();
+  private productsLoaded = false;
+
   constructor(private productService: UserService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.listenSearch();
     this.loadProducts();
-    this.applyFilters();
-
-    // filter ONLY when search triggered
-    this.productService.searchTerm$.subscribe(term => {
-      this.filteredProducts = this.products.filter(p =>
-        p.name.toLowerCase().includes(term.toLowerCase())
-      );
-    });
   }
 
+  // 🔥 Listen but don't filter until products are ready
+  listenSearch(): void {
 
+    console.log('Cleared filters on init');
+    this.productService.searchTerm$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(term => {
+        this.currentSearchTerm = term || '';
+ 
+        this.minPrice = 0;
+        this.maxPrice = 0;
 
-  loadProducts() {
-    this.productService.getAllProducts().subscribe(products => {
-      this.products = products;
-      this.filteredProducts = this.products.filter(p => p.isActive == true);
-
-      // extract unique categories
-      this.categories = [
-        ...new Set(products.map(p => p.category).filter(Boolean))
-      ];
-    });
+        if (this.productsLoaded) {
+          this.applyFilters();
+        }
+      });
   }
 
-  applyFilters() {
+  // 🔥 Load products first
+  loadProducts(): void {
+    this.productService.getAllProducts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(products => {
 
+        this.products = products.filter(p => p.isActive === true);
+        this.productsLoaded = true;
+
+        this.categories = [
+          ...new Set(this.products.map(p => p.category).filter(Boolean))
+        ];
+
+        this.applyFilters(); // ✅ always apply after load
+      });
+  }
+
+  applyFilters(): void {
     this.filteredProducts = this.products.filter(p => {
 
       const matchesSearch =
-        !this.searchText ||
-        p.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        p.brand?.toLowerCase().includes(this.searchText.toLowerCase());
+        !this.currentSearchTerm ||
+        p.name.toLowerCase().includes(this.currentSearchTerm.toLowerCase()) ||
+        p.category?.toLowerCase().includes(this.currentSearchTerm.toLowerCase());
 
-      const matchesCategory =
-        !this.selectedCategory || p.category === this.selectedCategory;
+      // const matchesCategory =
+      //   !this.selectedCategory || p.category === this.selectedCategory;
 
       const matchesPrice =
         (!this.minPrice || p.price >= this.minPrice) &&
         (!this.maxPrice || p.price <= this.maxPrice);
 
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesPrice
-      );
+      return matchesSearch && matchesPrice;
     });
   }
 
-  clearFilters() {
-    this.searchText = '';
+  clearFilters(): void {
+    this.currentSearchTerm = '';
     this.selectedCategory = '';
     this.minPrice = 0;
-    this.maxPrice = 0; 
+    this.maxPrice = 0;
+
+    this.applyFilters();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

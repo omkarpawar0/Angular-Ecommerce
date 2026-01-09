@@ -10,8 +10,7 @@ export class UserService {
   private baseUrl = 'https://angular-ecommerce-6c682-default-rtdb.firebaseio.com';
 
   private searchTermSubject = new BehaviorSubject<string>('');
-  searchTerm$ = this.searchTermSubject.asObservable();
-
+  searchTerm$ = this.searchTermSubject.asObservable(); 
 
   constructor(private http: HttpClient) { }
 
@@ -38,6 +37,7 @@ export class UserService {
 
   search(term: string) {
     this.searchTermSubject.next(term);
+    console.log('Search term updated to:', term);
   }
 
 }

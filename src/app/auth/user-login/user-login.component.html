@@ -1,10 +1,10 @@
 <!-- Button trigger modal -->
-<button #openButton type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button #openButton type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#userLogin">
     Launch demo modal
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="userLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -20,9 +20,16 @@
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                         <input type="password" class="form-control" id="exampleInputPassword1">
+                    </div> 
+                    <button type="button" class="btn btn-primary w-100" >Submit</button>
+
+                    <!-- REGISTER LINK -->
+                    <div class="text-center mt-2">
+                        Don’t have an account?
+                        <button type="button" class="bg-transparent p-0 border-0 text-primary" (click)="OpenRegModal()">
+                            Register
+                        </button>
                     </div>
-                    <button type="button" (click)="OpenRegModal()">Register</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>

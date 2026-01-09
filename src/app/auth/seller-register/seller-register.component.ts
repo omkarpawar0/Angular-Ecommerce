@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ErrorService } from 'src/app/core/services/error.service';
@@ -9,6 +9,9 @@ import { ErrorService } from 'src/app/core/services/error.service';
   styleUrls: ['./seller-register.component.scss']
 })
 export class SellerRegisterComponent {
+
+
+  @ViewChild('closemodal') closemodal : any;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private errorService: ErrorService) { }
   registerForm = this.fb.group({
@@ -37,6 +40,7 @@ export class SellerRegisterComponent {
       .subscribe({
         next: () => {
           this.errorService.showSuccess('Registration successful');
+          this.closemodal.nativeElement.click();
           setTimeout(() => {
             this.registerForm.reset();
           }, 1200);

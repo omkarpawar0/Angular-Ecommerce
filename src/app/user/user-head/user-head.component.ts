@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -9,8 +9,10 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./user-head.component.scss']
 })
 export class UserHeadComponent {
+  @ViewChild('searchBox') searchBox!: ElementRef;
   search = '';
   suggestions: string[] = [];
+
 
   searchText = '';
 
@@ -27,6 +29,13 @@ export class UserHeadComponent {
 
   constructor(private authService: AuthService, private productService: UserService, private router: Router) { }
 
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (!this.searchBox.nativeElement.contains(event.target)) {
+      this.suggestions = []; // close suggestions
+    }
+  }
   openlogin() {
     this.authService.openModal();
   }
@@ -38,9 +47,30 @@ export class UserHeadComponent {
       return;
     }
 
-    this.suggestions = this.allProducts.filter(p =>
-      p.toLowerCase().includes(this.searchText.toLowerCase())
-    );
+    // this.suggestions = this.allProducts.filter(p =>
+    //   p.toLowerCase().includes(this.searchText.toLowerCase())
+    // );
+    // this.suggestions = this.productService.getAllProducts();
+    //  this.suggestions = this.suggestions.filter(p =>
+    //   p.toLowerCase().includes(this.searchText.toLowerCase())
+    // );
+
+    this.productService.getAllProducts().subscribe(products => {
+
+      console.log('All products fetched for suggestions:', products);
+      this.productService.getAllProducts().subscribe(products => {
+        this.suggestions = products
+          .flatMap(p => [p.name, p.category]) // ✅ both included
+          .filter(Boolean)                    // remove null/undefined
+          .filter(value =>
+            value.toLowerCase().includes(this.searchText.toLowerCase())
+          )
+          .filter((value, index, self) => self.indexOf(value) === index) // remove duplicates
+          .slice(0, 8); // limit suggestions
+      });
+
+    });
+
   }
 
   // 🔥 SEARCH ON ENTER
