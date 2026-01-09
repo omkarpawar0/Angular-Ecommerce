@@ -1,1 +1,63 @@
-<p>product-details works!</p>
+<div class="container py-5" *ngIf="product">
+  <div class="row g-4">
+
+    <!-- Product Image -->
+    <div class="col-md-5">
+      <img
+        [src]="product.imageUrl"
+        alt="{{ product.name }}"
+        class="img-fluid rounded shadow-sm"
+      />
+    </div>
+
+    <!-- Product Info -->
+    <div class="col-md-7">
+      <h2 class="mb-3">{{ product.name }}</h2>
+
+      <h4 class="text-success mb-3">
+        ₹ {{ product.price }}
+      </h4>
+
+      <p class="text-muted mb-3">
+        {{ product.description }}
+      </p>
+
+      <p class="mb-2">
+        <strong>Category:</strong> {{ product.category }}
+      </p>
+
+      <p class="mb-4">
+        <strong>Status:</strong>
+        <span [class.text-success]="product.isActive"
+              [class.text-danger]="!product.isActive">
+          {{ product.isActive ? 'In Stock' : 'Out of Stock' }}
+        </span>
+      </p>
+
+      <!-- Quantity -->
+      <div class="d-flex align-items-center mb-4">
+        <label class="me-2">Quantity:</label>
+        <input
+          type="number"
+          class="form-control w-25"
+          [(ngModel)]="quantity"
+          min="1"
+        />
+      </div>
+
+      <!-- Actions -->
+      <button
+        class="btn btn-primary me-3"
+        [disabled]="!product.inStock"
+        (click)="addToCart()"
+      >
+        Add to Cart
+      </button>
+
+      <button class="btn btn-outline-secondary" routerLink="/products">
+        Back to Products
+      </button>
+    </div>
+
+  </div>
+</div>
