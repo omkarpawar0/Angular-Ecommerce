@@ -30,3 +30,12 @@ export interface sellerProduct {
     updatedAt?: Date;
 
 }
+
+export interface CartItem {
+  productId: string;
+  name: string;
+  price: number;
+  qty: number;
+  image?: string;
+  discount : number;
+}

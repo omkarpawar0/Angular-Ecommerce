@@ -1,0 +1,11 @@
+<h2>Delivery Address</h2>
+
+<form [formGroup]="addressForm" (ngSubmit)="submit()">
+  <input formControlName="name" placeholder="Name" />
+  <input formControlName="phone" placeholder="Phone" />
+  <textarea formControlName="address" placeholder="Address"></textarea>
+  <input formControlName="city" placeholder="City" />
+  <input formControlName="pincode" placeholder="Pincode" />
+
+  <button type="submit">Continue to Payment</button>
+</form>

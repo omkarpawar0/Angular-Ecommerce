@@ -1,21 +1,15 @@
 import { Injectable } from '@angular/core';
 import {
+  HttpInterceptor,
   HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
+  HttpHandler
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-    // 🚫 Skip Firebase Auth APIs
     if (
       req.url.includes('identitytoolkit.googleapis.com') ||
       req.url.includes('securetoken.googleapis.com')
@@ -23,27 +17,20 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    // ✅ Only attach token to Firebase RTDB
     if (!req.url.includes('firebaseio.com')) {
       return next.handle(req);
     }
 
-    const sellerData = localStorage.getItem('sellerData');
-    if (!sellerData) {
-      return next.handle(req);
-    }
+    const data = localStorage.getItem('authData');
+    if (!data) return next.handle(req);
 
-    const { idToken } = JSON.parse(sellerData);
-    if (!idToken) {
-      return next.handle(req);
-    }
+    const token = JSON.parse(data).idToken;
+    if (!token) return next.handle(req);
 
-    // ✅ Preserve existing params
     const authReq = req.clone({
-      params: req.params.append('auth', idToken)
+      params: req.params.append('auth', token)
     });
 
-    console.log('Auth Interceptor attached token');
     return next.handle(authReq);
   }
 }

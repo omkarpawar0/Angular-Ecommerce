@@ -1,0 +1,86 @@
+<div class="container-fluid px-3">
+    <h2 class="fs-5 mt-5">Your Cart</h2>
+
+    <div class="row gx-0">
+        <div class="col-9">
+
+            <div class="card p-3" *ngFor="let item of cart$ | async">
+                <div class="d-flex gap-3">
+                    <div class="image-container">
+                        <img [src]="item.image" alt="">
+                    </div>
+
+                    <div>
+                        <strong>{{ item.name }}</strong>
+
+                        <div class="d-flex gap-2 align-items-baseline mb-3">
+                            <h4 class="">
+                                ₹{{ item.price - (item.price * item.discount / 100) | number:'1.0-0' }}
+                            </h4>
+
+                            <small class="text-muted text-decoration-line-through">
+                                ₹{{ item.price | number:'1.0-0' }}
+                            </small>
+
+                            <p class="text-success">
+                                {{ item.discount ? item.discount : 0 }}% off
+                            </p>
+                        </div>
+
+                        <div>
+                            <button (click)="decrease(item)" class="ronded rounded-circle btn btn-outline-s">−</button>
+                            <span class="mx-2">{{ item.qty }}</span>
+                            <button (click)="increase(item)" class="ronded rounded-circle btn btn-outline-s">+</button>
+
+                            <button (click)="remove(item)" class="btn btn-outline-danger fs-12 ms-3">Remove</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <button (click)="checkout()" class="mt-2 btn btn-primary">Checkout</button>
+        </div>
+
+        <!--  -->
+        <div class="col-3" *ngIf="priceDetails$ | async as p">
+
+            <div class="price-box card">
+
+
+                <div class="p-3">
+                    <h6>PRICE DETAILS</h6>
+
+                    <div class="d-flex justify-content-between">
+                        <span>Price ({{ p.count }} item)</span>
+                        <span>₹{{ p.price | number:'1.0-0' }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between green">
+                        <span>Discount</span>
+                        <span>- ₹{{ (p.discountData ? p.discountData : 0 ) | number:'1.0-0'}}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span>Platform Fee</span>
+                        <span>₹{{ p.platformFee | number:'1.0-0' }}</span>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="p-3">
+                    <div class="d-flex justify-content-between total">
+                        <strong>Total Amount</strong>
+                        <strong>₹{{ p.total | number:'1.0-0' }}</strong>
+                    </div>
+
+                    <p class="save">
+                        You will save ₹{{ p.savings | number:'1.0-0' }} on this order
+                    </p> 
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

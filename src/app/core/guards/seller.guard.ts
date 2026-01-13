@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs'; 
-import { AuthService } from '../services/auth.service';
-import { map, take } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SellerGuard implements CanActivate {
-  
-  constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate() {
+  constructor(private router: Router) {}
 
-    if (localStorage.getItem('sellerData')) {
-      return true;
+  canActivate(): boolean {
+    const data = localStorage.getItem('authData');
+    if (!data) {
+      this.router.navigateByUrl('/login');
+      return false;
     }
-    this.router.navigate(['/seller']);
-    return false;
+
+    const user = JSON.parse(data);
+    if (user.role !== 'SELLER') {
+      this.router.navigateByUrl('/seller');
+      return false;
+    }
+
+    return true;
   }
-  
 }

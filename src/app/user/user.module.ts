@@ -5,8 +5,11 @@ import { UserLayoutComponent } from './user-layout/user-layout.component';
 import { UserHeadComponent } from './user-head/user-head.component';
 import { UserFooterComponent } from './user-footer/user-footer.component';
 import { ProductListComponent } from './product-list/product-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import { CartComponent } from './cart/cart.component';
+import { AddressComponent } from './address/address.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
     declarations: [
@@ -15,12 +18,16 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
         UserFooterComponent,
         ProductListComponent,
         ProductDetailsComponent,
+        CartComponent,
+        AddressComponent,
+        PaymentComponent,
         
     ],
     imports: [
         CommonModule,
         UserRoutingModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ]
 })
 export class UserModule { }

@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { CartService } from 'src/app/core/services/cart.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class UserHeadComponent {
 
   searchText = '';
 
-
+  cartCount$ = this.cartService.getCartCount();
 
   allProducts = [
     'Mobile',
@@ -27,7 +28,7 @@ export class UserHeadComponent {
     'Beauty'
   ];
 
-  constructor(private authService: AuthService, private productService: UserService, private router: Router) { }
+  constructor(private authService: AuthService, private productService: UserService, private router: Router,public cartService: CartService) { }
 
 
   @HostListener('document:click', ['$event'])
@@ -89,6 +90,4 @@ export class UserHeadComponent {
     this.suggestions = [];
     this.router.navigate(['/products']);
   }
-
-
 }
