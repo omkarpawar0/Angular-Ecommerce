@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { sellerProduct } from 'src/app/core/models/seller';
+import { CartService } from 'src/app/core/services/cart.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -28,15 +29,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(private productService: UserService) { }
 
+
   ngOnInit(): void {
     this.listenSearch();
-    this.loadProducts();
+    this.loadProducts(); 
   }
 
   // 🔥 Listen but don't filter until products are ready
   listenSearch(): void {
-
-    console.log('Cleared filters on init');
+ 
     this.productService.searchTerm$
       .pipe(takeUntil(this.destroy$))
       .subscribe(term => {

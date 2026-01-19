@@ -12,18 +12,25 @@ import { map } from 'rxjs';
 })
 export class CartComponent implements OnInit {
 
+  constructor(
+    private cartService: CartService,
+    private router: Router,
+    private auth: AuthService
+  ) { }
+
   cart$ = this.cartService.cart$;
 
   // 🔥 PRICE DETAILS (derived from cart)
   priceDetails$ = this.cart$.pipe(
+
     map(items => {
       debugger
       const price = items.reduce((sum, i) => sum + i.price * i.qty, 0);
       // const discountData =  price * (items.discount / 100);  
       const discountData = items.reduce(
-  (sum, i) => sum + (i.price * i.qty * i.discount / 100),
-  0
-);
+        (sum, i) => sum + (i.price * i.qty * i.discount / 100),
+        0
+      );
       const platformFee = items.length ? 7 : 0;
       const total = price - discountData + platformFee;
       const count = items.reduce((s, i) => s + i.qty, 0);
@@ -39,16 +46,11 @@ export class CartComponent implements OnInit {
     })
   );
 
-  constructor(
-    private cartService: CartService,
-    private router: Router,
-    private auth: AuthService
-  ) {}
 
-  ngOnInit() {
+
+  ngOnInit() { 
     this.cartService.loadCartOnce();
-
-    console.log("cart data" , this.cart$)
+     
   }
 
   increase(item: CartItem) {
@@ -66,6 +68,10 @@ export class CartComponent implements OnInit {
   }
 
   checkout() {
-    this.router.navigate(['/cart/checkout/address']);
+    if (!this.auth.isLoggedIn()) {
+      this.auth.openLoginModal();
+      return;
+    }
+    this.router.navigate(['/checkout']);
   }
 }

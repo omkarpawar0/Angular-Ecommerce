@@ -21,20 +21,21 @@ export class ProductDetailsComponent implements OnInit {
     private productService: UserService, private cartService: CartService
   ) { }
 
+  cart$ = this.cartService.cart$;
+
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.productId = params.get('id')!;
-      console.log('Route Product ID:', this.productId);
+      this.productId = params.get('id')!; 
 
       this.getProductById();
-    });
+    });   
   }
 
 
   getProductById(): void {
     this.productService.getAllProducts().subscribe(products => {
-      this.product = products.find(p => p.id === this.productId);
-      console.log('Fetched product details:', this.product);
+      this.product = products.find(p => p.id === this.productId); 
     });
   }
 
@@ -44,7 +45,7 @@ export class ProductDetailsComponent implements OnInit {
       name: this.product.name,
       price: this.product.price,
       image: this.product.imageUrl,
-      discount : this.product.discount,
+      discount: this.product.discount,
       qty: 1
     };
 

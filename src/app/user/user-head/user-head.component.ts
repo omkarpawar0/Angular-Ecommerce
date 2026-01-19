@@ -38,7 +38,7 @@ export class UserHeadComponent {
     }
   }
   openlogin() {
-    this.authService.openModal();
+    this.authService.openLoginModal();
   }
 
   // 🔹 ONLY update suggestions
@@ -57,8 +57,7 @@ export class UserHeadComponent {
     // );
 
     this.productService.getAllProducts().subscribe(products => {
-
-      console.log('All products fetched for suggestions:', products);
+ 
       this.productService.getAllProducts().subscribe(products => {
         this.suggestions = products
           .flatMap(p => [p.name, p.category]) // ✅ both included

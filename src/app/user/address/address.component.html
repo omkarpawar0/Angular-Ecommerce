@@ -1,11 +1,88 @@
-<h2>Delivery Address</h2>
+<div class="d-flex justify-content-between align-items-center pb-3">
+  <h4 class="fs-6 mb-0">Select Address</h4>
 
-<form [formGroup]="addressForm" (ngSubmit)="submit()">
-  <input formControlName="name" placeholder="Name" />
-  <input formControlName="phone" placeholder="Phone" />
-  <textarea formControlName="address" placeholder="Address"></textarea>
-  <input formControlName="city" placeholder="City" />
-  <input formControlName="pincode" placeholder="Pincode" />
+  <button class="btn btn-outline-primary fs-12" data-bs-toggle="modal" data-bs-target="#addressModal">
+    + Add New Address
+  </button>
+</div>
 
-  <button type="submit">Continue to Payment</button>
-</form>
+<div *ngFor="let a of addresses" class="card p-2 mb-2">
+  <div class="d-flex gap-3 align-items-center">
+    <input type="radio" name="address" (change)="selectAddress(a)">
+    <div>
+      <strong>{{ a.fullName }}</strong>
+      <p>{{ a.address }}, {{ a.city }}</p>
+    </div>
+  </div>
+
+  <div>
+    <button class="btn btn-sm btn-danger" (click)="deleteAddress(a.id)">
+      Remove
+    </button>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="addressModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <!-- MODAL HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Address</h5>
+        <button type="button" class="btn-close" #closeAddressBtn data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- MODAL BODY -->
+      <div class="modal-body">
+
+        <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
+
+          <input class="form-control mb-1" placeholder="Full Name" formControlName="fullName">
+          <small class="text-danger" *ngIf="f['fullName'].touched && f['fullName'].errors">
+            Full name is required (min 3 characters)
+          </small>
+
+          <input class="form-control mb-1 mt-2" placeholder="Mobile" formControlName="mobile">
+          <small class="text-danger" *ngIf="f['mobile'].touched && f['mobile'].errors">
+            Enter valid 10-digit mobile number
+          </small>
+
+          <input class="form-control mb-1 mt-2" placeholder="Address" formControlName="address">
+          <small class="text-danger" *ngIf="f['address'].touched && f['address'].errors">
+            Address must be at least 10 characters
+          </small>
+
+          <input class="form-control mb-1 mt-2" placeholder="City" formControlName="city">
+          <small class="text-danger" *ngIf="f['city'].touched && f['city'].errors">
+            City is required
+          </small>
+
+          <input class="form-control mb-1 mt-2" placeholder="State" formControlName="state">
+          <small class="text-danger" *ngIf="f['state'].touched && f['state'].errors">
+            State is required
+          </small>
+
+          <input class="form-control mb-1 mt-2" placeholder="Pincode" formControlName="pincode">
+          <small class="text-danger" *ngIf="f['pincode'].touched && f['pincode'].errors">
+            Enter valid 6-digit pincode
+          </small>
+
+          <button class="btn btn-primary w-100 mt-3" type="submit" [disabled]="addressForm.invalid">
+            Save Address
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- <button class="btn btn-success" (click)="continueToPayment()">
+  Continue to Payment
+</button> -->

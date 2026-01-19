@@ -10,6 +10,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { CartComponent } from './cart/cart.component';
 import { AddressComponent } from './address/address.component';
 import { PaymentComponent } from './payment/payment.component';
+import { PriceDetailsComponent } from './price-details/price-details.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { PaymentComponent } from './payment/payment.component';
         CartComponent,
         AddressComponent,
         PaymentComponent,
+        PriceDetailsComponent,
         
     ],
     imports: [

@@ -36,7 +36,7 @@ export class SellerRegisterComponent {
 
     const { email, password } = this.registerForm.value;
 
-    this.authService.signup(email!, password!)
+    this.authService.signup(email!, password!, 'SELLER')
       .subscribe({
         next: () => {
           this.errorService.showSuccess('Registration successful');

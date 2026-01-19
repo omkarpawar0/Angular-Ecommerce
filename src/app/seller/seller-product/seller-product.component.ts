@@ -83,9 +83,7 @@ export class SellerProductComponent {
     this.productService.getProducts(this.sellerId)
       .subscribe((res) =>
         this.products = res
-      );
-
-    console.log("callinng procts", this.products)
+      ); 
   }
 
   openModal(product?: sellerProduct) {

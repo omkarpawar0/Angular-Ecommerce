@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
   selector: 'app-user-layout',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-layout.component.scss']
 })
 export class UserLayoutComponent {
+
+
+  constructor(private cartService : CartService) {
+
+  }
+
+  ngOnInit(){ 
+    this.cartService.loadCartOnce();
+
+  } 
+
 
 }

@@ -7,6 +7,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { AddressComponent } from './address/address.component';
 import { PaymentComponent } from './payment/payment.component';
 import { CartComponent } from './cart/cart.component';
+import { userGuard } from '../core/guards/user.service';
 
 const routes: Routes = [
   {
@@ -26,20 +27,24 @@ const routes: Routes = [
         component: ProductDetailsComponent
       },
       {
-       path: 'cart',
-       component:CartComponent
-    }
+        path: 'cart',
+        component: CartComponent
+      },
+      {
+        path: 'checkout',
+        component: PaymentComponent,
+        canActivate : [userGuard]
+      },
+
+      {
+        path: 'address',
+        component: PaymentComponent
+      }
 
     ]
   },
 
-  {
-    path: 'checkout',
-    children: [
-      { path: 'address', component: AddressComponent },
-      { path: 'payment', component: PaymentComponent }
-    ]
-  }
+   
 ];
 
 @NgModule({

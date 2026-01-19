@@ -50,16 +50,14 @@ export class SellerLoginComponent {
           severity: 'success',
           summary: 'Login Successful',
           detail: 'Welcome Seller'
-        }); 
-        this.form.reset(); 
+        });
+        this.form.reset();
         this.authService.authUser$.subscribe(user => {
           if (user) {
             this.authService.isSellerLoggedIn$.subscribe();
           }
         });
-      
-        console.log('Authenticated User after login:', this.authService.authUser$.subscribe());
-        console.log('Login successful');
+ 
         this.closeBtn.nativeElement.click();
         this.router.navigate(['/seller/products']);
       },

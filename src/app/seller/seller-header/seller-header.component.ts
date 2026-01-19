@@ -19,18 +19,20 @@ export class SellerHeaderComponent {
     this.isSeller$ = this.authService.isSellerLoggedIn$;
   }
 
-  sellerData = localStorage.getItem('authData');
+  // sellerData = localStorage.getItem('authData');
+  // sellerDataa : any = JSON.parse(sellerData);
 
-  ngOnInit() {
+  sellerData :any;
 
+  ngOnInit() { 
 
-    console.log('Seller Data from localStorage: dmsfdesfn');
+  const data = localStorage.getItem('authData');
+  this.sellerData = data ? JSON.parse(data) : null; 
 
     this.authService.isSellerLoggedIn$.subscribe(isLogged => {
       this.islogin = isLogged;
     });
-
-    console.log('Is Seller Logged In:', this.islogin);
+ 
 
   }
  
@@ -43,10 +45,11 @@ export class SellerHeaderComponent {
     // this.openRegisterButton.nativeElement.click(); 
     
 
-    if (this.sellerData) {
+    if (this.sellerData  && this.sellerData.role == "SELLER" ) {
       this.islogin = true;
+ 
 
-    } else {
+    } else { 
       this.islogin = false
       this.openRegisterButton.nativeElement.click();
     }

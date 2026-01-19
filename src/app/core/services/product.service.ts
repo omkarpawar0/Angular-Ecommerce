@@ -45,9 +45,7 @@ export class ProductService {
   }
 
   // 🔹 DELETE PRODUCT
-  deleteProduct(id: string) {
-
-    console.log("Selller ID",id)
+  deleteProduct(id: string) { 
     return this.http.delete(
       `${this.baseUrl}/products/${id}.json`
     );

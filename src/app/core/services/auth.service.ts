@@ -12,43 +12,30 @@ export type Role = 'USER' | 'SELLER';
 
 export class AuthService {
 
+  constructor(private http: HttpClient, private router: Router) { }
 
-
-
-  constructor(private http: HttpClient, private router: Router) {
-
-  }
-
+  // Login Modal
   private openLoginmodalSource = new Subject<void>();
   openLoginModal$ = this.openLoginmodalSource.asObservable();
 
+  // 
   private authUser = new BehaviorSubject<any>(null);
   authUser$ = this.authUser.asObservable();
 
-
+  // To check seller login or not
   private isSellerloginSource = new BehaviorSubject<boolean>(false);
   isSellerLoggedIn$ = this.isSellerloginSource.asObservable();
 
-
-  // ✅ Seller observable
-  // isSellerLoggedIn$ = this.authUser$.pipe(
-  //   map(user => !!user && user.role === 'SELLER')
-  // );
 
   // ✅ User observable
   isUserLoggedIn$ = this.authUser$.pipe(
     map(user => !!user && user.role === 'USER')
   );
 
-  openModal() {
-    this.openLoginmodalSource.next();
-  }
-
   private openUserRegisterModalSource = new Subject<void>();
   openUserRegisterModal$ = this.openUserRegisterModalSource.asObservable();
 
-  openRegisterModal() {
-    console.log('SERVICE: openRegisterModal called');
+  openRegisterModal() { 
     this.openUserRegisterModalSource.next();
   }
   // 
@@ -57,14 +44,14 @@ export class AuthService {
 
 
   // 🔹 SIGN UP
-  signup(email: string, password: string) {
+  signup(email: string, password: string, role: Role) {
     return this.http.post<any>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`,
       { email, password, returnSecureToken: true }
     ).pipe(
       switchMap(res =>
-        this.saveUserRole(res.localId, email, 'SELLER', res.idToken).pipe(
-          tap(() => this.handleAuth(res, 'SELLER'))
+        this.saveUserRole(res.localId, email, role, res.idToken).pipe(
+          tap(() => this.handleAuth(res, role))
         )
       )
     );
@@ -77,29 +64,16 @@ export class AuthService {
     );
   }
 
-
-  // 🔹 LOGIN
-
   // ================= LOGIN =================
   login(email: string, password: string) {
 
-    // if (this.userData) {
-    //   this.authUser.next(JSON.parse(this.userData));
-
     const userData = localStorage.getItem('authData');
 
-    debugger
     setTimeout(() => {
-      if (userData) {
-        console.log('AuthService: Found user data in localStorage during login');
-        this.authUser.next(JSON.parse(userData));
-        console.log('AuthService: Loaded user from localStorage', this.authUser.value);
+      if (userData) { 
+        this.authUser.next(JSON.parse(userData)); 
       }
     }, 3000);
-    // }
-
-    console.log('AuthService: login called with email:', email);
-
     return this.http.post<any>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`,
       { email, password, returnSecureToken: true }
@@ -131,21 +105,21 @@ export class AuthService {
       expiresAt: Date.now() + res.expiresIn * 1000
     };
 
-    this.isSellerloginSource.next(true);
+    if (role == 'SELLER') {
+      this.isSellerloginSource.next(true); 
+    }
 
-
+    if (role == 'USER') {
+      this.isSellerloginSource.next(false); 
+    }
 
     // 🔥 2️⃣ Update seller state
-    // this.authUser.next(role === 'SELLER');
-
-    console.log('Authenticated user:', this.authUser.value);
+    // this.authUser.next(role === 'SELLER'); 
     localStorage.setItem('authData', JSON.stringify(user));
     this.authUser.next(user);
-    role === 'SELLER'
-      ? this.router.navigateByUrl('/seller/dashboard')
-      : this.router.navigateByUrl('/');
-
-    console.log('User role after login:', this.isSellerLoggedIn$);
+    if (role === 'SELLER') {
+      this.router.navigateByUrl('/seller/dashboard');
+    } 
   }
 
   // ================= AUTO LOGIN =================
@@ -177,6 +151,15 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('authData') || '{}')?.role;
   }
 
+  // 
+  isUser() {
+    return this.role() === 'USER';
+  }
+
+  isSeller() {
+    return this.role() === 'SELLER';
+  }
+
   // 🔹 REFRESH TOKEN
   refreshToken(refreshToken: string) {
     const params = new HttpParams()
@@ -198,6 +181,10 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.authUser.value;
+  }
+
+  openLoginModal() {
+    this.openLoginmodalSource.next();
   }
 
 }

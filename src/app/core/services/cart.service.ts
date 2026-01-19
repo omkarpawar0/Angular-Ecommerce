@@ -13,6 +13,9 @@ export class CartService {
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
   cart$ = this.cartSubject.asObservable();
 
+  private selectedAddressSource = new BehaviorSubject<any>(null);
+  selectedAddress$ = this.selectedAddressSource.asObservable();
+
   // 🔥 Prevent duplicate HTTP calls
   private cartLoaded = false;
 
@@ -36,15 +39,14 @@ export class CartService {
           this.cartSubject.next(cart || []);
         });
     } else {
-      const local = JSON.parse(localStorage.getItem('cart') || '[]');
+      const local = JSON.parse(localStorage.getItem('cart') || '[]'); 
       this.cartSubject.next(local);
     }
   }
 
   /* ---------------- ADD TO CART ---------------- */
   addToCart(item: CartItem) {
-
-    console.log("cart", item);
+ 
     const cart = [...this.cartSubject.value];
     const index = cart.findIndex(i => i.productId === item.productId);
 
@@ -52,11 +54,15 @@ export class CartService {
     this.persist(cart);
   }
 
+  //  
+  setAddress(address: any) {
+    this.selectedAddressSource.next(address);
+  }
+
   /* ---------------- UPDATE QTY (+ / -) ---------------- */
   updateQty(productId: string, change: number) {
     let cart = [...this.cartSubject.value];
-    const index = cart.findIndex(i => i.productId === productId);
-    console.log("index ", index)
+    const index = cart.findIndex(i => i.productId === productId); 
     if (index === -1) return;
 
     cart[index].qty += change;
@@ -118,16 +124,16 @@ export class CartService {
   private persist(cart: CartItem[]) {
     const user: any = this.auth.getCurrentUser();
 
-    console.log("sasasaa" , cart)
     // 🔥 Optimistic UI update
-    this.cartSubject.next(cart);
+    this.cartSubject.next(cart); 
 
-    if (user) {
+
+    if (user) { 
       this.http.put(
         `${environment.firebase.rtdbUrl}/carts/${user.uid}.json?auth=${user.token}`,
         cart
       ).pipe(take(1)).subscribe();
-    } else { 
+    } else {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   }

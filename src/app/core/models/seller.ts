@@ -32,10 +32,22 @@ export interface sellerProduct {
 }
 
 export interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  qty: number;
-  image?: string;
-  discount : number;
+    productId: string;
+    name: string;
+    price: number;
+    qty: number;
+    image?: string;
+    discount: number;
+}
+
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+    role: 'USER' | 'SELLER';
+}
+
+export interface AuthResponse {
+    token: string;
+    role: 'USER' | 'SELLER';
 }

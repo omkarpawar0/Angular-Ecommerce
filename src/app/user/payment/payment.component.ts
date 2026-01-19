@@ -14,6 +14,8 @@ export class PaymentComponent {
 
   cartItems: CartItem[] = [];
   total = 0;
+  paymentMode: string = 'COD';
+  selectedAddress: any;
 
   constructor(
     private cartService: CartService,
@@ -25,14 +27,26 @@ export class PaymentComponent {
       this.total = cart.reduce((s, i) => s + i.price * i.qty, 0);
     });
   }
+  
+  ngOnInit(){
+     this.cartService.selectedAddress$.subscribe(address => {
+      this.selectedAddress = address; 
+    });
+  }
 
   placeOrder() {
     const user:any = this.auth.getCurrentUser();
 
+     if (!this.selectedAddress) {
+      alert('Please select address');
+      return;
+    }
+
     const order = {
       items: this.cartItems,
       total: this.total,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      paymentMode: this.paymentMode,
     };
 
     this.http.post(

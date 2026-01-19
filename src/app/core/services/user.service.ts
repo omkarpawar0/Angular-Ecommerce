@@ -36,8 +36,7 @@ export class UserService {
 
 
   search(term: string) {
-    this.searchTermSubject.next(term);
-    console.log('Search term updated to:', term);
+    this.searchTermSubject.next(term); 
   }
 
 }

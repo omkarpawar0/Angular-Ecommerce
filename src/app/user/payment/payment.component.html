@@ -1,5 +1,64 @@
-<h2>Payment</h2>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- ADDRESS -->
+            <div>
+                <app-address></app-address>
+            </div>
 
-<p>Total: ₹{{ total }}</p>
+            <!-- PAYMENT -->
+            <div>
 
-<button (click)="placeOrder()">Pay Now</button>
+                <h4 class="fs-6 mt-4">Payment Method</h4>
+
+                <div class="card p-3">
+
+                    <div>
+                        <input type="radio" name="payment" checked (change)="paymentMode='COD'">
+                        Cash on Delivery
+                    </div>
+
+                    <div>
+                        <input type="radio" name="payment" (change)="paymentMode='ONLINE'">
+                        Online Payment (Dummy)
+                    </div>
+
+                    <div>
+                        <button class="btn btn-success mt-3"  [disabled]="!this.selectedAddress" data-bs-toggle="modal" data-bs-target="#paysuccess" (click)="placeOrder()">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <app-price-details></app-price-details>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade modal-payment" id="paysuccess" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+
+            <!-- MODAL HEADER -->
+            <div class="modal-header">
+                <!-- <h5 class="modal-title">Add New Address</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- MODAL BODY -->
+            <div class="modal-body text-center">
+
+                    <img src="../../../assets/images/common/success.png" class="" alt="">
+
+                    <h4>Success</h4> 
+                    <p>Order placed Successfully</p>
+            </div>
+
+        </div>
+    </div>
+</div>

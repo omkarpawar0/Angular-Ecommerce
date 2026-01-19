@@ -6,6 +6,8 @@ import {
   AfterViewInit,
   OnDestroy
 } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -21,29 +23,62 @@ export class UserLoginComponent
   private sub!: Subscription;
 
   @ViewChild('openButton') openBtn!: ElementRef<HTMLButtonElement>;
+  @ViewChild('closeBtn') closeBtn!:ElementRef<HTMLButtonElement>;
 
-  constructor(private authService: AuthService, private cartService: CartService) { }
+  constructor(private authService: AuthService, private cartService: CartService,private fb: FormBuilder,private toast:MessageService) { }
 
   ngOnInit() {
     this.sub = this.authService.openLoginModal$.subscribe(() => {
       this.openModal();
     });
-
-    // Manage after login cart merging
-    // this.cartService.mergeLocalCartToUser();
-
   }
 
   ngAfterViewInit() {
   }
 
-  openModal() {
-    if (!this.openBtn) {
-      console.log('Button not ready yet');
-      return;
-    }
+   form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]]
+  });
 
-    console.log('calling login');
+  login() { 
+    if (this.form.invalid) return;
+    const { email, password } = this.form.value;  
+
+    this.authService.login(email!, password!).subscribe({
+      next: () => {
+        this.toast.add({
+          severity: 'success',
+          summary: 'Login Successful',
+          detail: 'Welcome Seller'
+        });
+
+        this.closeBtn.nativeElement.click();
+        this.form.reset();
+        this.authService.authUser$.subscribe(user => {
+          if (user) {
+            this.authService.isSellerLoggedIn$.subscribe();
+          }
+        });
+ 
+        // this.closeBtn.nativeElement.click();
+        // this.router.navigate(['/seller/products']);
+      },
+      error: err => {
+        this.toast.add({
+          severity: 'error',
+          summary: 'Login Failed',
+          detail: err.error?.error?.message || 'Something went wrong'
+        });
+        // this.loading = false;
+      }
+    });
+  }
+
+  openModal() {
+    if (!this.openBtn) { 
+      return;
+    } 
     this.openBtn.nativeElement.click();
   }
 
@@ -54,4 +89,5 @@ export class UserLoginComponent
   ngOnDestroy() {
     this.sub?.unsubscribe();
   }
+  
 }

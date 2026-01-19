@@ -1,0 +1,33 @@
+<div class="price-box card" *ngIf="priceDetails$ | async as p">
+    <div class="p-3" >
+        <h6>PRICE DETAILS</h6>
+
+        <div class="d-flex justify-content-between">
+            <span>Price ({{ p.count }} item)</span>
+            <span>₹{{ p.price | number:'1.0-0' }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between green">
+            <span>Discount</span>
+            <span>- ₹{{ (p.discountData ? p.discountData : 0 ) | number:'1.0-0'}}</span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <span>Platform Fee</span>
+            <span>₹{{ p.platformFee | number:'1.0-0' }}</span>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="p-3">
+        <div class="d-flex justify-content-between total">
+            <strong>Total Amount</strong>
+            <strong>₹{{ p.total | number:'1.0-0' }}</strong>
+        </div>
+
+        <p class="save">
+            You will save ₹{{ p.savings | number:'1.0-0' }} on this order
+        </p>
+    </div>
+</div>
