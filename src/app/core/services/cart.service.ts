@@ -32,12 +32,15 @@ export class CartService {
     const user: any = this.auth.getCurrentUser();
 
     if (user) {
-      this.http.get<CartItem[]>(
-        `${environment.firebase.rtdbUrl}/carts/${user.uid}.json?auth=${user.token}`
-      ).pipe(take(1))
-        .subscribe(cart => {
-          this.cartSubject.next(cart || []);
-        });
+
+      console.log("ki", user.token)
+ 
+      // this.http.get<CartItem[]>(
+      //   `${environment.firebase.rtdbUrl}/carts/${user.uid}.json?auth=${user.token}`
+      // ).pipe(take(1))
+      //   .subscribe(cart => {
+      //     this.cartSubject.next(cart || []);
+      //   });
     } else {
       const local = JSON.parse(localStorage.getItem('cart') || '[]'); 
       this.cartSubject.next(local);

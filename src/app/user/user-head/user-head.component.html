@@ -7,7 +7,7 @@
 
             <!-- LG DIVICE -->
             <div class="nav-search position-relative d-none d-lg-block" #searchBox>
-                <input type="text" placeholder="Search Products" placeholder="Search products..."
+                <input type="text" class="w-100" placeholder="Search Products" placeholder="Search products..."
                     [(ngModel)]="searchText" (input)="onTyping()" (keyup.enter)="onEnter()" />
 
                 <ul class="list-group position-absolute" *ngIf="suggestions.length">
@@ -24,14 +24,15 @@
                         <button class="border-0 bg-transparent"
                             [ngClass]="{'text-disabled': (cartCount$ | async) === 0}"
                             [disabled]="(cartCount$ | async) === 0" routerLink="/cart">
-                            <span class="d-none d-lg-block">Cart</span> <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="d-none d-lg-inline-block">Cart</span> <i class="fa-solid fa-cart-shopping"></i>
                             <span *ngIf="cartCount$ | async as count">
                                 ({{ count }})
                             </span>
                         </button>
                     </li>
                     <!-- <li><a routerLink="/products">Products</a></li> -->
-                    <li><a routerLink="seller" class="became-seller"><i class="fa-solid fa-shop"></i><span class="d-none d-lg-block">Become Seller</span> </a>
+                    <li><a routerLink="seller" class="became-seller"><i class="fa-solid fa-shop"></i><span
+                                class="d-none d-lg-inline-block">Become Seller</span> </a>
                     </li>
 
                 </ul>
@@ -41,7 +42,7 @@
 
         <!-- SM DEVICE -->
         <div class="nav-search position-relative d-block d-lg-none mt-3" #searchBox>
-            <input type="text" placeholder="Search Products" placeholder="Search products..." [(ngModel)]="searchText"
+            <input type="text" class="w-100" placeholder="Search Products" placeholder="Search products..." [(ngModel)]="searchText"
                 (input)="onTyping()" (keyup.enter)="onEnter()" />
 
             <ul class="list-group position-absolute" *ngIf="suggestions.length">

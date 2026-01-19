@@ -49,7 +49,7 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit() { 
-    this.cartService.loadCartOnce();
+    // this.cartService.loadCartOnce();
      
   }
 

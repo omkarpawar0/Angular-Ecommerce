@@ -1,8 +1,8 @@
 <div class="container-fluid px-3">
     <h2 class="fs-5 mt-5">Your Cart</h2>
 
-    <div class="row gx-0">
-        <div class="col-lg-9">
+    <div class="row  ">
+        <div class="col-lg-9 mb-3 mb-lg-0">
             <div class="card p-3" *ngFor="let item of cart$ | async">
                 <div class="d-flex gap-3">
                     <div class="image-container">
@@ -42,7 +42,7 @@
         </div>
 
         <!--  -->
-        <div class="col-lg-3 mt-lg-0 mt-3" *ngIf="priceDetails$ | async as p">
+        <div class="col-lg-3 " *ngIf="priceDetails$ | async as p">
 
             <div class="price-box card">
                 <div class="p-3">
@@ -80,7 +80,10 @@
 
         </div>
 
-        <button (click)="checkout()" class="mt-3 btn btn-primary d-block d-lg-nones">Checkout</button>
 
+        <div class="col-12">
+            <button (click)="checkout()" class="mt-3 btn btn-primary d-block d-lg-none">Checkout</button>
+
+        </div>
     </div>
 </div>
