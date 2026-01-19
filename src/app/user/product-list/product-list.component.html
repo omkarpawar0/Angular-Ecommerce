@@ -11,17 +11,17 @@
             </select>
         </div> -->
 
-        <div class="col-md-2">
+        <div class="col-xl-2 col-md-4 col-6">
             <input type="number" class="form-control" placeholder="Min Price" [(ngModel)]="minPrice"
                 (input)="applyFilters()" />
         </div>
 
-        <div class="col-md-2">
+        <div class="col-xl-2 col-md-4 col-6">
             <input type="number" class="form-control" placeholder="Max Price" [(ngModel)]="maxPrice"
                 (input)="applyFilters()" />
         </div>
 
-        <div class="col-md-2">
+        <div class="col-xl-2 col-md-4 col-6">
             <button class="btn btn-outline-secondary w-100" (click)="clearFilters()">
                 Clear
             </button>
@@ -30,7 +30,7 @@
 
 
     <div class="row">
-        <div class="col-3" *ngFor="let product of filteredProducts">
+        <div class="col-xl-3 col-md-4 col-sm-6 mb-3 " *ngFor="let product of filteredProducts">
             <div class="card" [routerLink]="['/product', product.id]">
                 <div class="img-container  m-1 overflow-hidden bg-light rounded-3">
                     <img [src]="product.imageUrl" alt="" class="w-100">
