@@ -13,6 +13,7 @@
     color: var(--primary-color);
     margin: 0;
     font-size: 25px;
+    text-wrap: nowrap;
 }
 
 h1 a {
@@ -84,9 +85,20 @@ h1 a {
     color: blueviolet;
 }
 
-.user-dash{
+.user-dash {
     background-color: var(--primary-color);
     color: white !important;
     padding: 5px 10px;
     border-radius: 5px;
+}
+
+@media screen and (max-width:1200px) {
+    .nav h1 {
+        font-size: 18px;
+    }
+
+    .nav ul li {
+        padding-left: 20px;
+        padding-top: 5px;
+    }
 }

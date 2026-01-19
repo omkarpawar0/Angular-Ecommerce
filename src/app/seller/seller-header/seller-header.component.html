@@ -1,11 +1,11 @@
 <nav class="nav">
     <div class="container-fluid">
-        <div class="content">
-            <h1><a routerLink="">E-Comm</a> </h1>
+        <div class="content align-items-center">
+            <h1><a routerLink="/seller">E-Comm</a> </h1>
 
             <div>
                 <ul>
-                    <li *ngIf="islogin "><a routerLink="/seller">Home {{islogin}} </a></li>
+                    <!-- <li *ngIf="islogin "><a routerLink="">Home  </a></li> -->
 
                     <li *ngIf="islogin"><a routerLink="/seller/products">Products</a></li>
 
@@ -14,7 +14,7 @@
                             <i class="fa-regular fa-user"></i> Login
                         </button></li> 
                     <li *ngIf="islogin" (click)="logout()"><a>Logout</a></li>
-                    <li><a routerLink="/" class="user-dash">User Dashbord</a></li>
+                    <li><a routerLink="/" class="user-dash">User</a></li>
 
 
                 </ul>
