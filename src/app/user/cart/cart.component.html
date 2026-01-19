@@ -2,8 +2,7 @@
     <h2 class="fs-5 mt-5">Your Cart</h2>
 
     <div class="row gx-0">
-        <div class="col-9">
-
+        <div class="col-lg-9">
             <div class="card p-3" *ngFor="let item of cart$ | async">
                 <div class="d-flex gap-3">
                     <div class="image-container">
@@ -39,11 +38,11 @@
                 </div>
             </div>
 
-            <button (click)="checkout()" class="mt-2 btn btn-primary">Checkout</button>
+            <button (click)="checkout()" class="mt-2 btn btn-primary d-none d-lg-block">Checkout</button>
         </div>
 
         <!--  -->
-        <div class="col-3" *ngIf="priceDetails$ | async as p">
+        <div class="col-lg-3 mt-lg-0 mt-3" *ngIf="priceDetails$ | async as p">
 
             <div class="price-box card">
                 <div class="p-3">
@@ -75,10 +74,13 @@
 
                     <p class="save">
                         You will save ₹{{ p.savings | number:'1.0-0' }} on this order
-                    </p> 
+                    </p>
                 </div>
             </div>
 
         </div>
+
+        <button (click)="checkout()" class="mt-3 btn btn-primary d-block d-lg-nones">Checkout</button>
+
     </div>
 </div>
